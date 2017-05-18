@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.css">
+    <script src="dist/js/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myapp" class="panel panel-primary" style="width:80%;">
+        <div class="panel-body" ng-controller="tab">
+            <div class="panel-heading">
+                <span>标题</span>
+                <input type="text" ng-model="c" placeholder="请输入编号">
+            </div>
+            <table class="table">
+                <thead class="bg-primary">
+                    <th>编号</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="arrs in obj |filter:{id:c}">
+                        <td class="active">{{arrs.id}}</td>
+                        <td class="success">{{arrs.name}}</td>
+                        <td class="warning">{{arrs.age}}</td>
+                        <td class="danger">{{arrs.sex}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        var app = angular.module('myapp',[]);
+            app.controller('tab',function($scope,$http){
+                $scope.c = "";
+                $scope.obj=[];
+                $http({
+                    method:'GET',
+                    url:'smoki.json'
+                }).then(function successCallback(response){
+                    $scope.obj = response.data;
+                },function errorCallback(response){
+                });
+            });
+    </script>
+</body>
+</html>
